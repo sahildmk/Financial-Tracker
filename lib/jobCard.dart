@@ -1,5 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+TextStyle fontStyle = GoogleFonts.cabin(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w700
+                            );
 
 class JobCard extends StatelessWidget{
   final String name;
@@ -13,8 +19,9 @@ class JobCard extends StatelessWidget{
     return Container(
       child: Center(
         child: Card(
+          color: Color.fromRGBO(230, 230, 230, 100),
           child: InkWell(
-            splashColor: Colors.blue.withAlpha(30),
+            splashColor: Colors.black.withAlpha(30),
             onTap: () {
               print('Card tapped.');
             },
@@ -30,11 +37,11 @@ class JobCard extends StatelessWidget{
                       children: <Widget>[
                         RichText(
                           text: TextSpan(
-                            text: "Name: " + this.name,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold
+                            text: this.name,
+                            style: GoogleFonts.cabin(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20
                             )
                           ),
                         ),
@@ -48,11 +55,7 @@ class JobCard extends StatelessWidget{
                         RichText(
                           text: TextSpan(
                             text: "Last Shift: " + this.lastShift,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold
-                            )
+                            style: fontStyle
                           ),
                         ),
                       ],
@@ -65,11 +68,7 @@ class JobCard extends StatelessWidget{
                         RichText(
                           text: TextSpan(
                             text: "Next Shift: " + this.nextShift,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold
-                            )
+                            style: fontStyle
                           ),
                         ),
                       ],
