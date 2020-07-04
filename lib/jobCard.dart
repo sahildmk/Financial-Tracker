@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 TextStyle fontStyle = GoogleFonts.hammersmithOne(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 16
-                            );
+  color: Colors.black87,
+  fontWeight: FontWeight.normal,
+  fontSize: 16
+);
 
 class JobCard extends StatelessWidget{
   final String name;
@@ -20,7 +20,8 @@ class JobCard extends StatelessWidget{
     return Container(
       child: Center(
         child: Card(
-          color: Color.fromRGBO(230, 230, 230, 100),
+          shadowColor: Colors.white,
+          color: Colors.white38,
           child: InkWell(
             splashColor: Colors.black.withAlpha(30),
             onTap: () {
