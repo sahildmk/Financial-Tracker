@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-TextStyle fontStyle = GoogleFonts.cabin(
+TextStyle fontStyle = GoogleFonts.hammersmithOne(
                               color: Colors.black87,
-                              fontWeight: FontWeight.w700
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16
                             );
 
 class JobCard extends StatelessWidget{
@@ -29,19 +30,19 @@ class JobCard extends StatelessWidget{
               width: MediaQuery.of(context).size.width - 20,
               height: 100,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 5, 0, 5),
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                     child: Row(
                       children: <Widget>[
                         RichText(
                           text: TextSpan(
                             text: this.name,
-                            style: GoogleFonts.cabin(
+                            style: GoogleFonts.hammersmithOne(
                               color: Colors.black87,
                               fontWeight: FontWeight.bold,
-                              fontSize: 20
+                              fontSize: 30
                             )
                           ),
                         ),
@@ -49,7 +50,7 @@ class JobCard extends StatelessWidget{
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 5, 0, 5),
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                     child: Row(
                       children: <Widget>[
                         RichText(
@@ -62,7 +63,7 @@ class JobCard extends StatelessWidget{
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 5, 0, 5),
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                     child: Row(
                       children: <Widget>[
                         RichText(
