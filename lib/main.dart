@@ -76,16 +76,38 @@ class _HomePageState extends State<HomePage> {
             child: jobs[index],
           );
         },
-        separatorBuilder: (BuildContext context, int index) => const Divider()
+        separatorBuilder: (BuildContext context, int index) => const Divider(thickness: 0)
       ),
       bottomNavigationBar: TitledBottomNavigationBar(
+        enableShadow: false,
+        indicatorColor: Colors.black87,
         currentIndex: 0,
         onTap: (index) {
           print("Selected Index: $index");
         },
         items: [
-           TitledNavigationBarItem(title: Text('Home'), icon: Icons.home),
-           TitledNavigationBarItem(title: Text('Search'), icon: Icons.search),
+          TitledNavigationBarItem(
+            title: Text(
+              'Home', 
+              style: GoogleFonts.hammersmithOne(
+                color: Colors.black, 
+                fontSize: 17,
+                fontWeight: FontWeight.bold
+              ),
+            ), 
+            icon: Icons.home
+          ),
+          TitledNavigationBarItem(
+            title: Text(
+              'Search',
+              style: GoogleFonts.hammersmithOne(
+                color: Colors.black,
+                fontSize: 17,
+                fontWeight: FontWeight.bold
+              ),
+            ), 
+            icon: Icons.search
+          ),
         ],
         reverse: true,
       ),
