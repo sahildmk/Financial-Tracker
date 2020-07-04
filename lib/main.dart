@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shift_tracker/alertDialogs.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 import 'jobCard.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'job.dart';
 
 void main() => runApp(
   MaterialApp(
@@ -26,9 +28,18 @@ class _HomePageState extends State<HomePage> {
     print(jobs.length);
   }
 
-  removeJob(int index) {
-    jobs.removeAt(index); 
+  removeJob(int index, BuildContext context) {
+    setState(() {
+      jobs.removeAt(index); 
+      Navigator.of(context).pop();
+    });
     print(jobs.length);
+  }
+
+  cancel(BuildContext context) {
+    setState(() { 
+      Navigator.of(context).pop();
+    });
   }
 
   @override
@@ -38,8 +49,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    double appBarSize = MediaQuery.of(context).size.height / 10;
+    double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
+    double appBarSize = phoneHeight / 10;
 
     return Scaffold(
       appBar: PreferredSize(
@@ -69,14 +81,12 @@ class _HomePageState extends State<HomePage> {
           return Dismissible(
             key: UniqueKey(),
             onDismissed: (direction) {
-              setState(() {
-                removeJob(index);
-              });
+              deleteDialog(context, index, "job", removeJob, cancel);
             },
             child: jobs[index],
           );
         },
-        separatorBuilder: (BuildContext context, int index) => const Divider(thickness: 0)
+        separatorBuilder: (BuildContext context, int index) => Container(height: phoneHeight / 100)
       ),
       bottomNavigationBar: TitledBottomNavigationBar(
         enableShadow: false,
