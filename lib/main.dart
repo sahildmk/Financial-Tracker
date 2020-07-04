@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 import 'jobCard.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() => runApp(
   MaterialApp(
@@ -18,41 +19,64 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<JobCard> jobs = [];
+  JobCard newJob = new JobCard("JB HI-FI", "03/07/20", "04/07/20");
 
-  addJob() async {
-    JobCard newJob = new JobCard("JB HI-FI", "03/07/20", "04/07/20");
-    for (int i = 0; i < 10; i++) {
-      jobs.add(newJob);
-    }
+  addJob() {
+    jobs.add(newJob);
+    print(jobs.length);
+  }
+
+  removeJob(int index) {
+    jobs.removeAt(index); 
+    print(jobs.length);
   }
 
   @override
   void initState() {
-    addJob();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    double appBarSize = MediaQuery.of(context).size.height / 10;
+    double phoneWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      appBar: AppBar( 
-        title: const Text("Jobs"),
-      ),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Flexible(
-              child: ListView.separated(
-                padding: const EdgeInsets.all(8),
-                itemCount: jobs.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(child: jobs[index]);
-                },
-                separatorBuilder: (BuildContext context, int index) => const Divider()
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(appBarSize),
+        child: Container(
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Container(
+                color: Colors.black87,
               ),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.fromLTRB(phoneWidth / 18, appBarSize / 2.2, 0, 0),
+                child: Text(
+                  "Jobs",
+                  style: GoogleFonts.hammersmithOne(fontSize: 50, color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         )
+      ),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(8),
+        itemCount: jobs.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Dismissible(
+            key: UniqueKey(),
+            onDismissed: (direction) {
+              setState(() {
+                removeJob(index);
+              });
+            },
+            child: jobs[index],
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) => const Divider()
       ),
       bottomNavigationBar: TitledBottomNavigationBar(
         currentIndex: 0,
@@ -64,6 +88,13 @@ class _HomePageState extends State<HomePage> {
            TitledNavigationBarItem(title: Text('Search'), icon: Icons.search),
         ],
         reverse: true,
+      ),
+      floatingActionButton: FloatingActionButton( 
+        onPressed: () {setState(() {
+          addJob();
+        });},
+        backgroundColor: Colors.black87,
+        child: Icon(Icons.add, size: 35),
       ),
     );
   }
