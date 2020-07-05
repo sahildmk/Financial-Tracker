@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shift_tracker/CustomWidgets.dart';
 import 'package:shift_tracker/alertDialogs.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 import 'jobCard.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'newJobForm.dart';
 import 'job.dart';
 
 void main() => runApp(
@@ -21,11 +23,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<JobCard> jobs = [];
-  JobCard newJob = new JobCard("JB HI-FI", "03/07/20", "04/07/20");
 
-  addJob() {
-    jobs.add(newJob);
-    print(jobs.length);
+  addJob() async {
+    final newJob = await Navigator.push(
+      context, 
+      MaterialPageRoute(builder: (context) => newJobForm())
+    );
+    print(newJob);
+    setState(() {
+      jobs.add(newJob.getJobCard());
+    });
   }
 
   removeJob(int index, BuildContext context) {
@@ -54,26 +61,7 @@ class _HomePageState extends State<HomePage> {
     double appBarSize = phoneHeight / 10;
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(appBarSize),
-        child: Container(
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Container(
-                color: Colors.black87,
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(phoneWidth / 18, appBarSize / 2.2, 0, 0),
-                child: Text(
-                  "Jobs",
-                  style: GoogleFonts.hammersmithOne(fontSize: 50, color: Colors.white),
-                ),
-              ),
-            ],
-          ),
-        )
-      ),
+      appBar: MyAppBar(phoneWidth, phoneHeight, appBarSize, "Jobs"),
       body: ListView.separated(
         padding: const EdgeInsets.all(8),
         itemCount: jobs.length,
@@ -122,9 +110,11 @@ class _HomePageState extends State<HomePage> {
         reverse: true,
       ),
       floatingActionButton: FloatingActionButton( 
-        onPressed: () {setState(() {
-          addJob();
-        });},
+        onPressed: () {
+          setState(() {
+            addJob();
+          });
+        },
         backgroundColor: Colors.black87,
         child: Icon(Icons.add, size: 35),
       ),
