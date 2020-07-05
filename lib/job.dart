@@ -10,7 +10,7 @@ class Job {
     this.name = _name;
     this.rateOfPay = _rateOfPay;
     this.payFreq = _payFreq;
-    this.jobCard = new JobCard(this.name, "None", "None");
+    this.jobCard = new JobCard(this.name, this.rateOfPay.toString(), this.payFreq);
   }
 
   String getName() {
