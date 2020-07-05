@@ -10,10 +10,10 @@ TextStyle fontStyle = GoogleFonts.hammersmithOne(
 
 class JobCard extends StatelessWidget{
   final String name;
-  final String lastShift;
-  final String nextShift;
+  final String rateOfPay;
+  final String payFreq;
 
-  JobCard(this.name, this.lastShift, this.nextShift);
+  JobCard(this.name, this.rateOfPay, this.payFreq);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class JobCard extends StatelessWidget{
                       children: <Widget>[
                         RichText(
                           text: TextSpan(
-                            text: "Last Shift: " + this.lastShift,
+                            text: "Rate of Pay: " + this.rateOfPay,
                             style: fontStyle
                           ),
                         ),
@@ -69,7 +69,7 @@ class JobCard extends StatelessWidget{
                       children: <Widget>[
                         RichText(
                           text: TextSpan(
-                            text: "Next Shift: " + this.nextShift,
+                            text: "Pay frequency: " + this.payFreq,
                             style: fontStyle
                           ),
                         ),
