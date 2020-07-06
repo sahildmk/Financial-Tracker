@@ -175,13 +175,7 @@ class _newJobFormState extends State<newJobForm> {
                   }
 
                   formKey.currentState.save();
-
-                  print(this.name);
-                  print(this.rateOfPay);
-                  print(this.payFreq);
-
                   Job newJob = new Job(this.name, this.rateOfPay, this.payFreq);
-
                   Navigator.of(context).pop(newJob);
 
                 },
