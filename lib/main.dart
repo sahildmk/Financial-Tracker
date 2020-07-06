@@ -1,11 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shift_tracker/CustomWidgets.dart';
 import 'package:shift_tracker/alertDialogs.dart';
-import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 import 'jobCard.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'newJobForm.dart';
-import 'job.dart';
 
 void main() => runApp(
   MaterialApp(
@@ -27,12 +25,14 @@ class _HomePageState extends State<HomePage> {
   addJob() async {
     final newJob = await Navigator.push(
       context, 
-      MaterialPageRoute(builder: (context) => newJobForm())
+      CupertinoPageRoute(builder: (context) => newJobForm())
     );
-    print(newJob);
-    setState(() {
-      jobs.add(newJob.getJobCard());
-    });
+    // print(newJob);
+    if (newJob != null) {
+      setState(() {
+        jobs.add(newJob.getJobCard());
+      });
+    }
   }
 
   removeJob(int index, BuildContext context) {
@@ -76,39 +76,7 @@ class _HomePageState extends State<HomePage> {
         },
         separatorBuilder: (BuildContext context, int index) => Container(height: phoneHeight / 100)
       ),
-      bottomNavigationBar: TitledBottomNavigationBar(
-        enableShadow: false,
-        indicatorColor: Colors.black87,
-        currentIndex: 0,
-        onTap: (index) {
-          print("Selected Index: $index");
-        },
-        items: [
-          TitledNavigationBarItem(
-            title: Text(
-              'Home', 
-              style: GoogleFonts.hammersmithOne(
-                color: Colors.black, 
-                fontSize: 17,
-                fontWeight: FontWeight.bold
-              ),
-            ), 
-            icon: Icons.home
-          ),
-          TitledNavigationBarItem(
-            title: Text(
-              'Search',
-              style: GoogleFonts.hammersmithOne(
-                color: Colors.black,
-                fontSize: 17,
-                fontWeight: FontWeight.bold
-              ),
-            ), 
-            icon: Icons.search
-          ),
-        ],
-        reverse: true,
-      ),
+      bottomNavigationBar: myBottomNavBar(),
       floatingActionButton: FloatingActionButton( 
         onPressed: () {
           setState(() {
@@ -116,7 +84,7 @@ class _HomePageState extends State<HomePage> {
           });
         },
         backgroundColor: Colors.black87,
-        child: Icon(Icons.add, size: 35),
+        child: Icon(Icons.add, size: (phoneHeight * phoneWidth) / 8000),
       ),
     );
   }
