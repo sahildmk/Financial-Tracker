@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {  
   final double phoneWidth;
@@ -24,7 +25,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               color: Colors.black87,
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(phoneWidth / 18, appBarSize / 2.2, 0, 0),
+              padding: EdgeInsets.fromLTRB(phoneWidth / 18, appBarSize / 1.9, 0, 0),
               child: Text(
                 title,
                 style: GoogleFonts.hammersmithOne(fontSize: 40, color: Colors.white),
@@ -35,4 +36,40 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       )
     );
   }
+}
+
+Widget myBottomNavBar() {
+  return TitledBottomNavigationBar(
+    enableShadow: false,
+    indicatorColor: Colors.black87,
+    currentIndex: 0,
+    onTap: (index) {
+      print("Selected Index: $index");
+    },
+    items: [
+      TitledNavigationBarItem(
+        title: Text(
+          'Home', 
+          style: GoogleFonts.hammersmithOne(
+            color: Colors.black, 
+            fontSize: 17,
+            fontWeight: FontWeight.bold
+          ),
+        ), 
+        icon: Icons.home
+      ),
+      TitledNavigationBarItem(
+        title: Text(
+          'Search',
+          style: GoogleFonts.hammersmithOne(
+            color: Colors.black,
+            fontSize: 17,
+            fontWeight: FontWeight.bold
+          ),
+        ), 
+        icon: Icons.search
+      ),
+    ],
+    reverse: true,
+  );
 }
