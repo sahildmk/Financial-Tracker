@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'JobScreen.dart';
 
 TextStyle fontStyle = GoogleFonts.hammersmithOne(
   color: Colors.black87,
@@ -26,6 +27,10 @@ class JobCard extends StatelessWidget{
             splashColor: Colors.black.withAlpha(30),
             onTap: () {
               print('Card tapped.');
+              Navigator.push(
+                context,
+                CupertinoPageRoute(builder: (context) => JobScreen(name))
+              );
             },
             child: Container(
               width: MediaQuery.of(context).size.width - 20,
@@ -56,7 +61,7 @@ class JobCard extends StatelessWidget{
                       children: <Widget>[
                         RichText(
                           text: TextSpan(
-                            text: "Rate of Pay: " + this.rateOfPay,
+                            text: "Rate of Pay: \$" + this.rateOfPay,
                             style: fontStyle
                           ),
                         ),
