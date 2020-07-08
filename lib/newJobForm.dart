@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:shift_tracker/job.dart';
 import 'package:validators/sanitizers.dart';
 import 'CustomWidgets.dart';
@@ -176,7 +177,8 @@ class _newJobFormState extends State<newJobForm> {
 
                   formKey.currentState.save();
                   Job newJob = new Job(this.name, this.rateOfPay, this.payFreq);
-                  Navigator.of(context).pop(newJob);
+                  Hive.box('jobs').add(newJob);
+                  Navigator.of(context).pop();
 
                 },
               )
