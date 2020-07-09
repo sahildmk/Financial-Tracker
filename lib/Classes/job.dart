@@ -1,4 +1,4 @@
-import 'jobCard.dart';
+import '../Custom_Widgets/jobCard.dart';
 import 'package:hive/hive.dart';
 
 part 'job.g.dart';

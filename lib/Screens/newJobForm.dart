@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
-import 'package:shift_tracker/job.dart';
+import 'package:shift_tracker/Classes/job.dart';
 import 'package:validators/sanitizers.dart';
-import 'CustomWidgets.dart';
+import '../Custom_Widgets/CustomWidgets.dart';
 import 'package:validators/validators.dart';
 
 class newJobForm extends StatefulWidget {

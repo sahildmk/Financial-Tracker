@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'CustomWidgets.dart';
+import '../Custom_Widgets/CustomWidgets.dart';
 
 class JobScreen extends StatefulWidget {
   final String name;

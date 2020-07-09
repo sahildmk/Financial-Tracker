@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shift_tracker/CustomWidgets.dart';
-import 'package:shift_tracker/alertDialogs.dart';
-import 'jobCard.dart';
-import 'newJobForm.dart';
+import 'package:shift_tracker/Custom_Widgets/CustomWidgets.dart';
+import 'package:shift_tracker/Custom_Widgets/alertDialogs.dart';
+import 'Custom_Widgets/jobCard.dart';
+import 'Screens/newJobForm.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
-import 'job.dart';
+import 'Classes/job.dart';
 
 void main() async{ 
   WidgetsFlutterBinding.ensureInitialized();
