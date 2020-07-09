@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
-import '../Screens/JobScreen.dart';
+import '../Pages/JobScreen.dart';
 
 part 'jobCard.g.dart';
 
