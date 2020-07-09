@@ -5,7 +5,7 @@ import 'package:shift_tracker/Classes/job.dart';
 import 'package:shift_tracker/Custom_Widgets/CustomWidgets.dart';
 import 'package:shift_tracker/Custom_Widgets/alertDialogs.dart';
 
-import 'newJobForm.dart';
+import '../Forms/JobForm.dart';
 
 class HomePage extends StatefulWidget {
   @override
