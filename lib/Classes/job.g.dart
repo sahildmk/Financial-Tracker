@@ -20,7 +20,6 @@ class JobAdapter extends TypeAdapter<Job> {
       fields[0] as String,
       fields[1] as double,
       fields[2] as String,
-      // fields[3] as JobCard
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
+import 'package:shift_tracker/Classes/job.dart';
 import '../Pages/JobScreen.dart';
 
 part 'jobCard.g.dart';
@@ -16,12 +17,14 @@ TextStyle fontStyle = GoogleFonts.hammersmithOne(
 class JobCard extends StatelessWidget{
   @HiveField(0)
   final String name;
-  @HiveField(2)
-  final String rateOfPay;
   @HiveField(1)
+  final String rateOfPay;
+  @HiveField(2)
   final String payFreq;
+  @HiveField(3)
+  final Job job;
 
-  JobCard(this.name, this.rateOfPay, this.payFreq);
+  JobCard(this.name, this.rateOfPay, this.payFreq, this.job);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,7 @@ class JobCard extends StatelessWidget{
               print('Card tapped.');
               Navigator.push(
                 context,
-                CupertinoPageRoute(builder: (context) => JobScreen(name))
+                CupertinoPageRoute(builder: (context) => JobScreen(job))
               );
             },
             child: Container(

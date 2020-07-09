@@ -1,3 +1,5 @@
+import 'package:shift_tracker/Classes/shift.dart';
+
 import '../Custom_Widgets/jobCard.dart';
 import 'package:hive/hive.dart';
 
@@ -13,12 +15,14 @@ class Job {
   String payFreq;
   @HiveField(3)
   JobCard jobCard;
+  @HiveField(4)
+  List<Shift> shifts;
 
   Job(String _name, double _rateOfPay, String _payFreq) {
     this.name = _name;
     this.rateOfPay = _rateOfPay;
     this.payFreq = _payFreq;
-    this.jobCard = new JobCard(this.name, this.rateOfPay.toString(), this.payFreq);
+    this.jobCard = new JobCard(this.name, this.rateOfPay.toString(), this.payFreq, this);
   }
 
   String getName() {

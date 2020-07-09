@@ -18,20 +18,23 @@ class JobCardAdapter extends TypeAdapter<JobCard> {
     };
     return JobCard(
       fields[0] as String,
-      fields[2] as String,
       fields[1] as String,
+      fields[2] as String,
+      fields[3] as Job,
     );
   }
 
   @override
   void write(BinaryWriter writer, JobCard obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.name)
-      ..writeByte(2)
-      ..write(obj.rateOfPay)
       ..writeByte(1)
-      ..write(obj.payFreq);
+      ..write(obj.rateOfPay)
+      ..writeByte(2)
+      ..write(obj.payFreq)
+      ..writeByte(3)
+      ..write(obj.job);
   }
 }
