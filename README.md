@@ -1,4 +1,4 @@
-# shift_tracker - WIP
+Shift Tracker - WIP
 
 Track shifts from jobs. All information relation to a job, 
 including the number of hours worked, net and gross pay, all in one centralised location, 
