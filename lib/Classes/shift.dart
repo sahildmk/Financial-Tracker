@@ -1,10 +1,6 @@
-
-
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:shift_tracker/Custom_Widgets/shiftCard.dart';
-import 'package:validators/sanitizers.dart';
+// import 'package:validators/sanitizers.dart';
 
 import 'job.dart';
 

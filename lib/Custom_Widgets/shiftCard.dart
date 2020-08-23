@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 
-part 'shiftCard.g.dart';
+// part 'shiftCard.g.dart';
 
 TextStyle fontStyle = GoogleFonts.hammersmithOne(
   color: Colors.black87,
@@ -11,15 +11,15 @@ TextStyle fontStyle = GoogleFonts.hammersmithOne(
   fontSize: 16
 );
 
-@HiveType(typeId: 2)
+// @HiveType(typeId: 2)
 class ShiftCard extends StatelessWidget{
-  @HiveField(0)
+  // @HiveField(0)
   final String date;
-  @HiveField(1)
+  // @HiveField(1)
   final String start;
-  @HiveField(2)
+  // @HiveField(2)
   final String end;
-  @HiveField(3)
+  // @HiveField(3)
   final String length;
 
   ShiftCard(this.date, this.start, this.end, this.length);

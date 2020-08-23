@@ -19,14 +19,14 @@ class JobAdapter extends TypeAdapter<Job> {
     return Job(
       fields[0] as String,
       fields[1] as double,
-      fields[2] as String,
+      fields[2] as String
     );
   }
 
   @override
   void write(BinaryWriter writer, Job obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -34,6 +34,8 @@ class JobAdapter extends TypeAdapter<Job> {
       ..writeByte(2)
       ..write(obj.payFreq)
       ..writeByte(3)
-      ..write(obj.jobCard);
+      ..write(obj.jobCard)
+      ..writeByte(4)
+      ..write(obj.shifts);
   }
 }
