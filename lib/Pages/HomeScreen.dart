@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
 
   ListView _buildListView(double phoneHeight) {
     final jobsBox = Hive.box('jobs');
+    // print("JOB BOX LENGTH = " + jobsBox.length.toString());
     return ListView.separated(
       padding: const EdgeInsets.all(8),
       itemCount: jobsBox.length,
@@ -76,6 +77,7 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           setState(() {
             addJob();
+            // print("HERE");
           });
         },
         backgroundColor: Colors.black87,

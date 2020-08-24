@@ -8,13 +8,13 @@ part of 'jobCard.dart';
 
 class JobCardAdapter extends TypeAdapter<JobCard> {
   @override
-  final typeId = 1;
+  final int typeId = 0;
 
   @override
   JobCard read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return JobCard(
       fields[0] as String,
@@ -37,4 +37,14 @@ class JobCardAdapter extends TypeAdapter<JobCard> {
       ..writeByte(3)
       ..write(obj.job);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is JobCardAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

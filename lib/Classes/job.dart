@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 
 part 'job.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 1)
 class Job {
   @HiveField(0)
   String name;
@@ -15,8 +15,8 @@ class Job {
   String payFreq;
   @HiveField(3)
   JobCard jobCard;
-  @HiveField(4)
-  List<Shift> shifts;
+  // @HiveField(4)
+  // List<Shift> shifts;
 
   Job(String _name, double _rateOfPay, String _payFreq) {
     this.name = _name;

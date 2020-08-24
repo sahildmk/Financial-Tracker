@@ -8,13 +8,13 @@ part of 'job.dart';
 
 class JobAdapter extends TypeAdapter<Job> {
   @override
-  final typeId = 0;
+  final int typeId = 1;
 
   @override
   Job read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Job(
       fields[0] as String,
@@ -26,16 +26,24 @@ class JobAdapter extends TypeAdapter<Job> {
   @override
   void write(BinaryWriter writer, Job obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
       ..write(obj.rateOfPay)
       ..writeByte(2)
-      ..write(obj.payFreq)
-      ..writeByte(3)
-      ..write(obj.jobCard)
-      ..writeByte(4)
-      ..write(obj.shifts);
+      ..write(obj.payFreq);
+      // ..writeByte(3)
+      // ..write(obj.jobCard);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is JobAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

@@ -13,7 +13,7 @@ TextStyle fontStyle = GoogleFonts.hammersmithOne(
   fontSize: 16
 );
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 0)
 class JobCard extends StatelessWidget{
   @HiveField(0)
   final String name;
