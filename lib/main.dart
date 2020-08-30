@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shift_tracker/utils/Database.dart';
 import 'Custom_Widgets/jobCard.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'Classes/job.dart';
 import 'Pages/HomeScreen.dart';
 
-void main() async{ 
-  WidgetsFlutterBinding.ensureInitialized();
-  final appDirectory = await path_provider.getApplicationDocumentsDirectory();
-  Hive.init(appDirectory.path);
-  Hive.registerAdapter(JobAdapter());
-  Hive.registerAdapter(JobCardAdapter());
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // final appDirectory = await path_provider.getApplicationDocumentsDirectory();
+  // Hive.init(appDirectory.path);
+  // Hive.registerAdapter(JobCardAdapter());
   runApp(MyApp());
 }
 
@@ -26,29 +26,14 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Container(
-        child: FutureBuilder(
-          future: Hive.openBox('jobs'),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                print("Snapshot Error");
-                print(snapshot.error.toString());
-              } else {
-                return HomePage();
-              }
-            }
-            return Scaffold();
-          },
-        ),
+        child: HomePage(),
       ),
     );
   }
 
   @override
   void dispose() {
-    Hive.close();
+    DBProvider.db.closeDB();
     super.dispose();
   }
 }
-
-

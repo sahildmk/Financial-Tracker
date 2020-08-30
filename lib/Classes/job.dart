@@ -1,19 +1,9 @@
-import 'package:shift_tracker/Classes/shift.dart';
-
 import '../Custom_Widgets/jobCard.dart';
-import 'package:hive/hive.dart';
 
-part 'job.g.dart';
-
-@HiveType(typeId: 1)
 class Job {
-  @HiveField(0)
   String name;
-  @HiveField(1)
   double rateOfPay;
-  @HiveField(2)
   String payFreq;
-  @HiveField(3)
   JobCard jobCard;
   // @HiveField(4)
   // List<Shift> shifts;

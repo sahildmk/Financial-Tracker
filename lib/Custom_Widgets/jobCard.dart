@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 import 'package:shift_tracker/Classes/job.dart';
 import '../Pages/JobScreen.dart';
-
-part 'jobCard.g.dart';
 
 TextStyle fontStyle = GoogleFonts.hammersmithOne(
   color: Colors.black87,
@@ -13,15 +10,10 @@ TextStyle fontStyle = GoogleFonts.hammersmithOne(
   fontSize: 16
 );
 
-@HiveType(typeId: 0)
 class JobCard extends StatelessWidget{
-  @HiveField(0)
   final String name;
-  @HiveField(1)
   final String rateOfPay;
-  @HiveField(2)
   final String payFreq;
-  @HiveField(3)
   final Job job;
 
   JobCard(this.name, this.rateOfPay, this.payFreq, this.job);

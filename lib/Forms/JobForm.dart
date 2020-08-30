@@ -5,6 +5,7 @@ import 'package:shift_tracker/Classes/job.dart';
 import 'package:validators/sanitizers.dart';
 import '../Custom_Widgets/CustomWidgets.dart';
 import 'package:validators/validators.dart';
+import '../utils/Database.dart';
 
 class newJobForm extends StatefulWidget {
   @override
@@ -12,24 +13,14 @@ class newJobForm extends StatefulWidget {
 }
 
 class _newJobFormState extends State<newJobForm> {
-
   TextStyle titleStyle = GoogleFonts.hammersmithOne(
-    color: Colors.black87,
-    fontWeight: FontWeight.bold,
-    fontSize: 25
-  );
+      color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 25);
 
   TextStyle inputStyle = GoogleFonts.hammersmithOne(
-    color: Colors.black87,
-    fontWeight: FontWeight.normal,
-    fontSize: 15
-  );
+      color: Colors.black87, fontWeight: FontWeight.normal, fontSize: 15);
 
   TextStyle errorStyle = GoogleFonts.hammersmithOne(
-    color: Colors.red,
-    fontWeight: FontWeight.bold,
-    fontSize: 15
-  );
+      color: Colors.red, fontWeight: FontWeight.bold, fontSize: 15);
 
   String name;
   double rateOfPay;
@@ -39,21 +30,18 @@ class _newJobFormState extends State<newJobForm> {
 
   Widget buildName() {
     return TextFormField(
+      autofocus: false,
       style: inputStyle,
       decoration: InputDecoration(
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        labelText: "Job Name",
-        labelStyle: titleStyle,
-        errorStyle: errorStyle,
-        hintText: "E.g. McDonalds",
-        border: OutlineInputBorder(
-          borderRadius: (BorderRadius.circular(5.0)),
-          borderSide: BorderSide(
-            color: Colors.amber,
-            style: BorderStyle.solid
-          )
-        )
-      ),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          labelText: "Job Name",
+          labelStyle: titleStyle,
+          errorStyle: errorStyle,
+          hintText: "E.g. McDonalds",
+          border: OutlineInputBorder(
+              borderRadius: (BorderRadius.circular(5.0)),
+              borderSide:
+                  BorderSide(color: Colors.amber, style: BorderStyle.solid))),
       validator: (String value) {
         value = value.trim();
         if (value.isEmpty) {
@@ -65,33 +53,30 @@ class _newJobFormState extends State<newJobForm> {
       },
     );
   }
-  
+
   Widget buildRateOfPay() {
     return TextFormField(
+      autofocus: false,
       style: inputStyle,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
-        prefixText: "\$ ",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        labelText: "Rate of Pay (Per Hour)",
-        labelStyle: titleStyle,
-        errorStyle: errorStyle,
-        // hintText: "E.g \$25.71",
-        border: OutlineInputBorder(
-          borderRadius: (BorderRadius.circular(5.0)),
-          borderSide: BorderSide(
-            color: Colors.amber,
-            style: BorderStyle.solid
-          )
-        )
-      ),
+          prefixText: "\$ ",
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          labelText: "Rate of Pay (Per Hour)",
+          labelStyle: titleStyle,
+          errorStyle: errorStyle,
+          // hintText: "E.g \$25.71",
+          border: OutlineInputBorder(
+              borderRadius: (BorderRadius.circular(5.0)),
+              borderSide:
+                  BorderSide(color: Colors.amber, style: BorderStyle.solid))),
       validator: (String value) {
         value = value.trim();
         if (value.isEmpty) {
           return 'Rate of Pay is Required';
-        } else if(!isFloat(value)) {
+        } else if (!isFloat(value)) {
           return 'Rate of Pay must be a numeric value';
-        } else if(value.contains(" ")) {
+        } else if (value.contains(" ")) {
           return 'Rate of Pay cannot contain any spaces';
         }
       },
@@ -100,34 +85,31 @@ class _newJobFormState extends State<newJobForm> {
       },
     );
   }
-  
+
   Widget buildPayFreq() {
     List<String> items = [
-      'Daily', 
-      'Weekly', 
-      'Fortnightly', 
+      'Daily',
+      'Weekly',
+      'Fortnightly',
       'Monthly',
       'Quaterly',
       'Yearly'
     ];
 
     return DropdownButtonFormField(
+      autofocus: false,
       style: inputStyle,
       decoration: InputDecoration(
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        labelText: "Pay Frequency",
-        labelStyle: titleStyle,
-        errorStyle: errorStyle,
-        border: OutlineInputBorder(
-          borderRadius: (BorderRadius.circular(5.0)),
-          borderSide: BorderSide(
-            color: Colors.amber,
-            style: BorderStyle.solid
-          )
-        )
-      ),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          labelText: "Pay Frequency",
+          labelStyle: titleStyle,
+          errorStyle: errorStyle,
+          border: OutlineInputBorder(
+              borderRadius: (BorderRadius.circular(5.0)),
+              borderSide:
+                  BorderSide(color: Colors.amber, style: BorderStyle.solid))),
       items: items.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String> (
+        return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
         );
@@ -170,16 +152,15 @@ class _newJobFormState extends State<newJobForm> {
                   "Confirm",
                   style: titleStyle,
                 ),
-                onPressed: () {
-                  if (!formKey.currentState.validate()){
+                onPressed: () async {
+                  if (!formKey.currentState.validate()) {
                     return;
                   }
 
                   formKey.currentState.save();
                   Job newJob = new Job(this.name, this.rateOfPay, this.payFreq);
-                  Hive.box('jobs').add(newJob);
+                  await DBProvider.db.newJob(newJob);
                   Navigator.of(context).pop();
-
                 },
               )
             ],
