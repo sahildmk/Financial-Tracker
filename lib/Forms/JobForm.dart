@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
@@ -6,13 +7,14 @@ import 'package:validators/sanitizers.dart';
 import '../Custom_Widgets/CustomWidgets.dart';
 import 'package:validators/validators.dart';
 import '../utils/Database.dart';
+import '../Pages/HomeScreen.dart';
 
-class newJobForm extends StatefulWidget {
+class JobForm extends StatefulWidget {
   @override
-  _newJobFormState createState() => _newJobFormState();
+  JobFormState createState() => JobFormState();
 }
 
-class _newJobFormState extends State<newJobForm> {
+class JobFormState extends State<JobForm> {
   TextStyle titleStyle = GoogleFonts.hammersmithOne(
       color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 25);
 
@@ -160,7 +162,9 @@ class _newJobFormState extends State<newJobForm> {
                   formKey.currentState.save();
                   Job newJob = new Job(this.name, this.rateOfPay, this.payFreq);
                   await DBProvider.db.newJob(newJob);
-                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context, CupertinoPageRoute(builder: (context) => new HomePage())
+                  );
                 },
               )
             ],

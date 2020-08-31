@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   addJob() async {
     setState(() {
       Navigator.push(
-          context, CupertinoPageRoute(builder: (context) => newJobForm()));
+          context, CupertinoPageRoute(builder: (context) => JobForm()));
     });
   }
 
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     List<Job> jobs = new List<Job>();
     if (jobRes != null) {
       for (Map m in jobRes) {
-        jobs.add(new Job(m['name'], m['rateOfPay'], m['payFreq']));
+        jobs.add(new Job(m['name'], m['rateOfPay'],"Pay FREQ"));
       }
     }
     return jobs;
@@ -74,6 +74,7 @@ class _HomePageState extends State<HomePage> {
 
   getJobs() async {
     final jobsRes = await DBProvider.db.getJobs();
+    print(jobsRes);
     return jobsRes;
   }
 

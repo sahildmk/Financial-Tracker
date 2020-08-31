@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:shift_tracker/Classes/job.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqflite_dev.dart';
@@ -9,28 +11,29 @@ class DBProvider {
   static Database _database;
 
   Future<Database> get database async {
-    if (_database != null) return database;
-
-    var dbPath = await getDatabasesPath();
-    _database = await openDatabase(
-      dbPath, 
-      version: 1,
-      onCreate: (Database db, int version) async {
-      await db.execute('''
-          CREATE TABLE jobs (
-            jobID INTEGER PRIMARY KEY,
-            name TEXT,
-            rateOfPay REAL,
-            payFreq INTEGER
-          )''');
-    });
+    if (_database != null) {
+      return _database;
+    }
+    _database = await createDB();
     return _database;
   }
 
-  newJob(Job newJob) async {
-    print("HERE");
-    final db = await database;
+  Future<Database> createDB() async {
+    String dbPath = await getDatabasesPath();
+    return await openDatabase(join(dbPath, 'main.db'), version: 1,
+        onCreate: (Database db, int version) async {
+      await db.execute("CREATE TABLE jobs ("
+          "jobID INTEGER PRIMARY KEY,"
+          "name TEXT,"
+          "rateOfPay REAL,"
+          "payFreq INTEGER"
+          ")");
+    });
+  }
 
+  newJob(Job newJob) async {
+    final db = await database;
+    final newID = await newJobId();
     var res = await db.rawInsert('''
       INSERT INTO jobs (
         jobID,
@@ -38,11 +41,7 @@ class DBProvider {
         rateOfPay,
         payFreq
       ) VALUES (?, ?, ?, ?)
-      ''', [0, newJob.getName(), newJob.getRateOfPay(), 1]);
-
-    print("HERE1");
-
-    print(getJobs());
+      ''', [newID, newJob.getName(), newJob.getRateOfPay(), 1]);
   }
 
   Future<dynamic> getJobs() async {
@@ -51,11 +50,24 @@ class DBProvider {
       SELECT * FROM jobs
       ''');
 
-    print(res);
-
     if (res.length == 0) return null;
 
     return res;
+  }
+
+  Future<int> newJobId() async {
+    final db = await database;
+    List<Map> res = await db.rawQuery("SELECT jobID from jobs");
+    if (res.isEmpty) return 0;
+
+    List<int> ids = new List<int>();
+    for (Map m in res) {
+      ids.add(m['jobID']);
+    }
+
+    for (int i = 0; i < ids.length; i++) {
+      if (!ids.contains(i)) return i;
+    }
   }
 
   closeDB() async {
