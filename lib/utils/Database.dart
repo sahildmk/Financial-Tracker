@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:shift_tracker/Classes/job.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqflite_dev.dart';
@@ -58,16 +56,26 @@ class DBProvider {
   Future<int> newJobId() async {
     final db = await database;
     List<Map> res = await db.rawQuery("SELECT jobID from jobs");
-    if (res.isEmpty) return 0;
+    if (res.isNotEmpty) {
+      List<int> ids = new List<int>();
+      for (Map m in res) {
+        ids.add(m['jobID']);
+      }
 
-    List<int> ids = new List<int>();
-    for (Map m in res) {
-      ids.add(m['jobID']);
+      for (int i = 0; i <= ids.length; i++) {
+        if (!ids.contains(i)) return i;
+      }
     }
+    return 0;
+  }
 
-    for (int i = 0; i < ids.length; i++) {
-      if (!ids.contains(i)) return i;
-    }
+  Future<bool> removeJob(int jobID) async {
+    final db = await database;
+    var res = await db.rawQuery('''
+    DELETE FROM jobs WHERE jobID = $jobID
+    ''');
+    print(res);
+    return true;
   }
 
   closeDB() async {
