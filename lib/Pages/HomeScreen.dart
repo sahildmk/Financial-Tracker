@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:shift_tracker/Classes/job.dart';
 import 'package:shift_tracker/Custom_Widgets/CustomWidgets.dart';
 import 'package:shift_tracker/Custom_Widgets/alertDialogs.dart';
@@ -15,21 +16,38 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Future jobFuture;
+  List<Job> jobList;
+  StreamController _streamController;
+  Stream _stream;
 
-  addJob() async {
-    setState(() {
-      Navigator.push(
-          context, CupertinoPageRoute(builder: (context) => JobForm()));
-    });
+  @override
+  void initState() {
+    super.initState();
+    _streamController = StreamController();
+    _stream = _streamController.stream;
+    jobFuture = getJobs();
   }
 
-  removeJob(int index, BuildContext context) {
-    final jobsBox = Hive.box('jobs');
+  addJob() async {
+    _streamController.add("waiting");
+    final newJob = await Navigator.push(
+        context, CupertinoPageRoute(builder: (context) => JobForm()));
+
+    if (newJob != Null) {
+      setState(() {
+        jobList.add(newJob);
+      });
+      _streamController.add("add job");
+    }
+  }
+
+  removeJob(int jobID, int listIndex, BuildContext context) {
     setState(() {
-      jobsBox.deleteAt(index);
+      jobList.removeAt(listIndex);
+      DBProvider.db.removeJob(jobID);
       Navigator.of(context).pop();
     });
-    print(jobsBox.length);
+    _streamController.add("del job");
   }
 
   cancel(BuildContext context) {
@@ -42,23 +60,27 @@ class _HomePageState extends State<HomePage> {
     List<Job> jobs = new List<Job>();
     if (jobRes != null) {
       for (Map m in jobRes) {
-        jobs.add(new Job(m['name'], m['rateOfPay'],"Pay FREQ"));
+        jobs.add(new Job(m['jobID'], m['name'], m['rateOfPay'], "Pay FREQ"));
       }
+      _streamController.add("init jobs");
+    } else {
+      _streamController.add(null);
     }
     return jobs;
   }
 
-  ListView _buildListView(double phoneHeight, List<Job> jobs) {
-    return ListView.separated(
+  ListView _buildListView(double phoneHeight) {
+    return new ListView.separated(
         padding: const EdgeInsets.all(8),
-        itemCount: jobs.length,
+        itemCount: jobList.length,
         itemBuilder: (BuildContext context, int index) {
-          final currJob = jobs[index];
+          final currJob = jobList[index];
           final currJobCard = currJob.getJobCard();
           return Dismissible(
               key: UniqueKey(),
-              onDismissed: (direction) {
-                deleteDialog(context, index, "job", removeJob, cancel);
+              onDismissed: (direction) async {
+                var result = await deleteDialog(
+                    context, currJob.getID(), index, "job", removeJob, cancel);
               },
               child: currJobCard);
         },
@@ -66,15 +88,9 @@ class _HomePageState extends State<HomePage> {
             Container(height: phoneHeight / 100));
   }
 
-  @override
-  void initState() {
-    super.initState();
-    jobFuture = getJobs();
-  }
-
   getJobs() async {
     final jobsRes = await DBProvider.db.getJobs();
-    print(jobsRes);
+    jobList = buildJobList(jobsRes);
     return jobsRes;
   }
 
@@ -86,28 +102,25 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: MyAppBar(phoneWidth, phoneHeight, appBarSize, "Jobs"),
-      body: FutureBuilder(
-        future: jobFuture,
-        builder: (BuildContext context, jobList) {
-          if (jobList.connectionState == ConnectionState.done) {
-            if (jobList.hasError) {
-              print("jobList Error");
-              print(jobList.error.toString());
-            } else {
-              List<Job> jobs = buildJobList(jobList.data);
-              return _buildListView(phoneHeight, jobs);
-            }
+      body: StreamBuilder(
+        stream: _stream,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.data == null) {
+            return Scaffold();
           }
-          return Scaffold();
+
+          if (snapshot.data == "waiting") {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          return _buildListView(phoneHeight);
         },
       ),
       bottomNavigationBar: myBottomNavBar(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            addJob();
-          });
-        },
+        onPressed: () => addJob(),
         backgroundColor: Colors.black87,
         child: Icon(Icons.add, size: (phoneHeight * phoneWidth) / 8000),
       ),
