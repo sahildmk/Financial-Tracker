@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Future<void> deleteDialog(BuildContext context, int index, String item, Function delFunc, Function cancelFunc) async {
+Future<void> deleteDialog(BuildContext context, int dbID, int listID, String item, 
+  Function delFunc, Function cancelFunc) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!
@@ -39,7 +40,7 @@ Future<void> deleteDialog(BuildContext context, int index, String item, Function
               ),
             ),
             onPressed: () {
-              delFunc(index, context);
+              delFunc(dbID, listID, context);
             },
           ),
           FlatButton(
