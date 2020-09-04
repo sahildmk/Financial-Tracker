@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 import 'package:shift_tracker/Classes/job.dart';
 import 'package:validators/sanitizers.dart';
 import '../Custom_Widgets/CustomWidgets.dart';
 import 'package:validators/validators.dart';
 import '../utils/Database.dart';
-import '../Pages/HomeScreen.dart';
 
 class JobForm extends StatefulWidget {
   @override
@@ -160,11 +158,11 @@ class JobFormState extends State<JobForm> {
                   }
 
                   formKey.currentState.save();
-                  Job newJob = new Job(this.name, this.rateOfPay, this.payFreq);
+                  Job newJob =
+                      new Job(0, this.name, this.rateOfPay, this.payFreq);
                   await DBProvider.db.newJob(newJob);
-                  Navigator.push(
-                    context, CupertinoPageRoute(builder: (context) => new HomePage())
-                  );
+                  
+                  Navigator.of(context).pop(newJob);
                 },
               )
             ],
