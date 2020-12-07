@@ -1,4 +1,5 @@
 import 'package:shift_tracker/Classes/job.dart';
+import 'package:shift_tracker/Classes/shift.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqflite_dev.dart';
 import 'package:path/path.dart';
@@ -26,7 +27,43 @@ class DBProvider {
           "rateOfPay REAL,"
           "payFreq INTEGER"
           ")");
+      await db.execute("CREATE TABLE shifts ("
+          "shiftID TEXT PRIMARY KEY,"
+          "jobID INTEGER,"
+          "date TEXT,"
+          "startTime TEXT,"
+          "endTime TEXT,"
+          "hoursWorked TEXT,"
+          "netPay REAL,"
+          "grossPay REAL"
+          ")");
     });
+  }
+
+  newShift(Shift newShift) async {
+    final db = await database;
+    final newID = await newJobId();
+    var res = await db.rawInsert('''
+      INSERT INTO shifts (
+        shiftID,
+        jobID,
+        date,
+        startTime,
+        endTime,
+        hoursWorked,
+        netPay,
+        grossPay
+      ) VALUES (?, ?, ?, ?)
+      ''', [
+        newID,
+        newShift.jobID,
+        newShift.date.toString(),
+        newShift.startTime.toString(),
+        newShift.endTime.toString(),
+        newShift.length,
+        newShift.netPay,
+        newShift.grossPay
+      ]);
   }
 
   newJob(Job newJob) async {
@@ -54,6 +91,22 @@ class DBProvider {
   }
 
   Future<int> newJobId() async {
+    final db = await database;
+    List<Map> res = await db.rawQuery("SELECT jobID from jobs");
+    if (res.isNotEmpty) {
+      List<int> ids = new List<int>();
+      for (Map m in res) {
+        ids.add(m['jobID']);
+      }
+
+      for (int i = 0; i <= ids.length; i++) {
+        if (!ids.contains(i)) return i;
+      }
+    }
+    return 0;
+  }
+
+  Future<int> newShiftId() async {
     final db = await database;
     List<Map> res = await db.rawQuery("SELECT jobID from jobs");
     if (res.isNotEmpty) {

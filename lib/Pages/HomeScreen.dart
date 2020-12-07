@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
           return Dismissible(
               key: UniqueKey(),
               onDismissed: (direction) async {
-                var result = await deleteDialog(
+                await deleteDialog(
                     context, currJob.getID(), index, "job", removeJob, cancel);
               },
               child: currJobCard);
