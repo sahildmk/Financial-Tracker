@@ -44,7 +44,7 @@ Widget myBottomNavBar() {
     indicatorColor: Colors.black87,
     currentIndex: 0,
     onTap: (index) {
-      print("Selected Index: $index");
+      // print("Selected Index: $index");
     },
     items: [
       TitledNavigationBarItem(

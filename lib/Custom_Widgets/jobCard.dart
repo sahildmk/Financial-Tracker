@@ -28,7 +28,7 @@ class JobCard extends StatelessWidget{
           child: InkWell(
             splashColor: Colors.black.withAlpha(30),
             onTap: () {
-              print('Card tapped.');
+              // print('Card tapped.');
               Navigator.push(
                 context,
                 CupertinoPageRoute(builder: (context) => JobScreen(job))
